@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class Arrays_01 {
     public static void main(String[] args) {
-        int[] arr = {1,2,3,4};
+        int[] arr = {0, -3, 5, 0, 2, -1, 7, -1, -6};
 
         // 1 -> Remove Duplicates - for sorted array
         // int newLength = removeDuplicate(arr);
@@ -66,6 +66,8 @@ public class Arrays_01 {
 
         // Product of Array Except Self
         // System.out.println("Product array is: " + Arrays.toString(productExceptSelf(arr)));
+
+        numberCounter(arr);
     }
 
     // Remove Duplicates - for sorted array
@@ -465,6 +467,24 @@ public class Arrays_01 {
         }
 
         return result;
+    }
+
+    // Count zeros, positives, negatives
+    public static void numberCounter(int[] arr){
+        int zero=0, pos=0, neg=0;
+
+        for(int num: arr){
+            if(num == 0){
+                zero++;
+            } else if(num > 0){
+                pos++;
+            } else{
+                neg++;
+            }
+        }
+        System.out.println("Zeros: " + zero);
+        System.out.println("Positives: " + pos);
+        System.out.println("Negatives: " + neg);
     }
 
     // public static int trapRainWater(int[] arr) {

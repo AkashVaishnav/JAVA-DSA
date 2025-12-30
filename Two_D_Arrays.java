@@ -84,7 +84,8 @@ public class Two_D_Arrays {
         // checkSymmetric(numbers);
 
         // Spiral traversal
-        int[][] matrix = { { 1, 2, 3 },
+        int[][] matrix = { 
+                        { 1, 2, 3 },
                         { 4, 5, 6 },
                         { 7, 8, 9 },
                       };
@@ -102,6 +103,22 @@ public class Two_D_Arrays {
 
         // Print matrix in Zig-Zag row-wise
         // zigZagMatrix(matrix);
+
+        // maxSum(matrix);
+
+        // minSumColumn(matrix);
+
+        // System.out.println(upperTriangle(matrix));
+
+        // System.out.println(identityMatrix(matrix));
+
+        // numberCounter(matrix);
+
+        // boundaryTravsersal(matrix);
+
+        // sumOfItsRowColumn(matrix);
+
+        findMaxRowColumn(matrix);
         // sc.close();
     }
 
@@ -374,6 +391,199 @@ public class Two_D_Arrays {
                     System.out.print(matrix[i][j] + " ");
                 }
             }
+        }
+    }
+    
+    // Find the row with maximum sum
+    public static void maxSum(int[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        int maxSum = Integer.MIN_VALUE;
+        int rowIndex = -1;
+
+        for(int i=0; i<rows; i++){
+            int sum = 0;
+            for(int j=0; j<cols; j++){
+                sum += matrix[i][j];
+            }
+
+            if(sum > maxSum){
+                maxSum = sum;
+                rowIndex = i;
+            }
+        }
+        System.out.println("Maximum sum is: " + maxSum);
+        System.out.println("Row index: " + rowIndex);
+    }
+
+    // Find the column with minimum sum
+    public static void minSumColumn(int[][] matrix){
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        int minSum = Integer.MAX_VALUE;
+        int colIndex = -1;
+
+        for(int i=0; i<cols; i++){
+            int sum = 0;
+            for(int j=0; j<rows; j++){
+                sum += matrix[i][j];
+            }
+            if(sum < minSum){
+                minSum = sum;
+                colIndex = i;
+            }
+        }
+        System.out.println("Minimu row index: " + colIndex);
+    }
+
+    // Check if matrix is upper triangular
+    public static boolean upperTriangle(int[][] matrix){
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        // because works only for square matrix (2×2), (3×3) and so on
+        // not for 2×3, 4×5 matrix
+        if(rows != cols){
+            return false;
+        }
+        for(int i=1; i<rows; i++){
+            for(int j=0; j<i; j++){
+                if(matrix[i][j] != 0){
+                    System.out.println("Upper triangle not found!");
+                    return false;
+                }
+            }
+        }
+        System.out.println("Upper triangle found!");
+        return true;
+    }
+
+    // Check if matrix is identity matrix
+    public static boolean identityMatrix(int[][] matrix){
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        if(rows != cols){
+            System.out.println("The matrix is not sqaure");
+            return false;
+        }
+
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<cols; j++){                
+                if(i==j && matrix[i][j] != 1){
+                    return false;
+                }
+
+                if(i!=j && matrix[i][j] != 0){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // Count zeros, positives, negatives
+    public static void numberCounter(int[][] matrix){
+        int zero=0, pos=0, neg=0;
+
+        for(int i=0; i<matrix.length; i++){
+            for(int j=0; j<matrix[0].length; j++){
+                if(matrix[i][j] == 0){
+                    zero++;
+                } else if(matrix[i][j] > 0){
+                    pos++;
+                } else{
+                    neg++;
+                }
+            }
+        }
+        System.out.println("Zeros: " + zero);
+        System.out.println("Positives: " + pos);
+        System.out.println("Negatives: " + neg);
+    }
+    
+    // Boundary traversal of matrix
+    public static void boundaryTravsersal(int[][] matrix){
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        int srow=0, scol=0;
+        int erow=m-1, ecol=n-1;
+
+        // top
+        for(int i=scol; i<=ecol; i++){
+            System.out.print(matrix[srow][i] + " ");
+        }
+        // right
+        for(int i=srow+1; i<=erow; i++){
+            System.out.print(matrix[i][ecol] + " ");
+        }
+        // bottom
+        for(int i=ecol-1; i>=scol; i--){
+            System.out.print(matrix[erow][i] + " ");
+        }
+        // left
+        for(int i=erow-1; i>=srow+1; i--){
+            System.out.print(matrix[i][scol] + " ");
+        }
+    }
+
+    // Replace each element with sum of its row & column
+    public static void sumOfItsRowColumn(int[][] matrix){
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        int[] rowSum = new int[rows];
+        int[] colSum = new int[cols];
+
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<cols; j++){
+                rowSum[i] += matrix[i][j];
+                colSum[j] += matrix[i][j];
+            }
+        }
+
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<cols; j++){
+                matrix[i][j] = rowSum[i] + colSum[j] - matrix[i][j];
+            }
+        }
+
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<cols; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    // Find maximum element in each row & column
+    public static void findMaxRowColumn(int[][] matrix){
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        // Max in each row
+        for(int i=0; i<rows; i++){
+            int maxRow = matrix[i][0];
+            for(int j=1; j<cols; j++){
+                if(maxRow < matrix[i][j]){
+                    maxRow = matrix[i][j];
+                }
+            }
+            System.out.println("Max in Row " + i + " = " + maxRow);
+        }
+        // Max in each column
+        for(int j=0; j<cols; j++){
+            int maxCol = matrix[0][j];
+            for(int i=1; i<rows; i++){
+                if(maxCol < matrix[i][j]){
+                    maxCol = matrix[i][j];
+                }
+            }
+            System.out.println("Max in Col " + j + " = " + maxCol);
+
         }
     }
 }
